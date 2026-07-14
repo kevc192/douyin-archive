@@ -113,8 +113,12 @@ class BrowserProfileDownloader:
                 context = browser.contexts[0]
 
                 def capture(response) -> None:
-                    # Douyin profile feeds return aweme objects from JSON endpoints.
-                    if "aweme" not in response.url.lower():
+                    # Endpoint names change frequently. Inspect JSON from Douyin only,
+                    # then keep exclusively objects that have a downloadable work shape.
+                    if "douyin.com" not in response.url.lower():
+                        return
+                    content_type = response.headers.get("content-type", "").lower()
+                    if "json" not in content_type:
                         return
                     try:
                         for work in _walk_awemes(response.json()):
