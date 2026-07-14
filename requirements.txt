@@ -1,0 +1,6 @@
+APScheduler==3.10.4
+fastapi==0.115.12
+playwright==1.61.0
+SQLAlchemy==2.0.36
+uvicorn[standard]==0.34.0
+yt-dlp==2026.7.4

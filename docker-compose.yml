@@ -1,0 +1,21 @@
+name: douyin-archive
+
+services:
+  archive:
+    image: ${IMAGE:-kev192/douyin-archive:latest}
+    container_name: douyin-archive
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-sqlite:////app/data/app.db}
+      DOWNLOAD_ROOT: ${DOWNLOAD_ROOT:-/app/downloads}
+      SYNC_CRON: ${SYNC_CRON:-15 */6 * * *}
+      ALLOW_AGE_RESTRICTED: ${ALLOW_AGE_RESTRICTED:-false}
+      BROWSER_CDP_URL: ${BROWSER_CDP_URL:-http://host.docker.internal:9222}
+      PROFILE_SCROLL_ROUNDS: ${PROFILE_SCROLL_ROUNDS:-18}
+    volumes:
+      - ./data:/app/data
+      - ./downloads:/app/downloads
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
